@@ -1,1 +1,2 @@
+MODULE.bazel.lock -diff linguist-generated
 MODULE.bazel.lock filter=lfs diff=lfs merge=lfs -text

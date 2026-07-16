@@ -1,0 +1,76 @@
+load("@pip//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_binary", "py_test")
+load("@rules_uv//uv:pip.bzl", "pip_compile")
+
+_GARMIN_SRCS = [
+    "src/garmin/client.py",
+    "src/garmin/cli.py",
+    "workspace.py",
+]
+
+pip_compile(
+    name = "requirements",
+    requirements_in = "//:requirements.in",
+    requirements_txt = "//:requirements.txt",
+)
+
+py_binary(
+    name = "generate_workouts",
+    srcs = [
+        "src/generate_workouts.py",
+        "workspace.py",
+    ],
+    imports = ["."],
+)
+
+py_binary(
+    name = "estimate_duration",
+    srcs = [
+        "src/estimate_duration.py",
+        "workspace.py",
+    ],
+    imports = ["."],
+)
+
+py_binary(
+    name = "garmin_push",
+    srcs = _GARMIN_SRCS,
+    imports = [
+        ".",
+        "src",
+    ],
+    main = "src/garmin/cli.py",
+    deps = [requirement("garth")],
+)
+
+py_test(
+    name = "client_test",
+    srcs = [
+        "src/garmin/client.py",
+        "tests/garmin/client_test.py",
+        "workspace.py",
+    ],
+    imports = [
+        ".",
+        "src",
+    ],
+    main = "tests/garmin/client_test.py",
+    deps = [
+        requirement("garth"),
+        requirement("pytest"),
+    ],
+)
+
+py_test(
+    name = "cli_test",
+    srcs = _GARMIN_SRCS + ["tests/garmin/cli_test.py"],
+    imports = [
+        ".",
+        "src",
+    ],
+    main = "tests/garmin/cli_test.py",
+    deps = [
+        requirement("garth"),
+        requirement("pytest"),
+    ],
+)
