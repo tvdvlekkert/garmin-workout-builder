@@ -9,7 +9,7 @@ import sys
 import garth
 import pytest
 
-from garmin.client import GarminClient
+from src.garmin.client import GarminClient
 
 
 class DummyClient:

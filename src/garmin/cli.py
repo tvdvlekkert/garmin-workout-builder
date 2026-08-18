@@ -16,7 +16,7 @@ import json
 import logging
 import sys
 
-from garmin.client import GarminClient
+from src.garmin.client import GarminClient
 from workspace import workspace_root
 
 logger = logging.getLogger(__name__)

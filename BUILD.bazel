@@ -20,7 +20,6 @@ py_binary(
         "src/generate_workouts.py",
         "workspace.py",
     ],
-    imports = ["."],
 )
 
 py_binary(
@@ -29,16 +28,11 @@ py_binary(
         "src/estimate_duration.py",
         "workspace.py",
     ],
-    imports = ["."],
 )
 
 py_binary(
     name = "garmin_push",
     srcs = _GARMIN_SRCS,
-    imports = [
-        ".",
-        "src",
-    ],
     main = "src/garmin/cli.py",
     deps = [requirement("garth")],
 )
@@ -50,10 +44,6 @@ py_test(
         "tests/garmin/client_test.py",
         "workspace.py",
     ],
-    imports = [
-        ".",
-        "src",
-    ],
     main = "tests/garmin/client_test.py",
     deps = [
         requirement("garth"),
@@ -64,10 +54,6 @@ py_test(
 py_test(
     name = "cli_test",
     srcs = _GARMIN_SRCS + ["tests/garmin/cli_test.py"],
-    imports = [
-        ".",
-        "src",
-    ],
     main = "tests/garmin/cli_test.py",
     deps = [
         requirement("garth"),

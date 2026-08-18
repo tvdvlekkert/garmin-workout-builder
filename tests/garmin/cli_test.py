@@ -11,7 +11,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from garmin import cli
+from src.garmin import cli
 
 
 class DummyClient:
