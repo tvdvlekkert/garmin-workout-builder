@@ -1,0 +1,6 @@
+bazel-*
+secrets/
+out/
+__pycache__/
+*.pyc
+.DS_Store
