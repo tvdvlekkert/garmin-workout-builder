@@ -15,6 +15,13 @@ pip_compile(
 )
 
 py_binary(
+    name = "ruff",
+    srcs = ["tools/ruff_main.py"],
+    main = "tools/ruff_main.py",
+    deps = [requirement("ruff")],
+)
+
+py_binary(
     name = "generate_workouts",
     srcs = [
         "src/generate_workouts.py",
