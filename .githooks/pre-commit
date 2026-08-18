@@ -1,6 +1,5 @@
 #!/bin/sh
-# Auto-format staged Python with ruff (hermetic, via bazel) before commit.
-# Enable once per clone: git config core.hooksPath .githooks
+# Auto-format staged Python with ruff. Enable: git config core.hooksPath .githooks
 set -e
 
 root=$(git rev-parse --show-toplevel)
@@ -9,6 +8,6 @@ if [ -z "$files" ]; then
   exit 0
 fi
 
-# bazel run's cwd is the runfiles dir, so hand ruff absolute paths.
+# bazel run's cwd is the runfiles dir, so pass absolute paths.
 echo "$files" | sed "s|^|$root/|" | xargs bazel run //:ruff -- format
 echo "$files" | xargs git add

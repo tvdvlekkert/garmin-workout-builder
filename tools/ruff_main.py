@@ -1,10 +1,5 @@
-"""Bazel launcher for ruff.
-
-ruff's wheel ships the compiled binary as a data script (no console entry point),
-and its own find_ruff_bin() only checks sysconfig/site-packages paths that don't
-exist under Bazel's runfiles. rules_python drops the binary at
-<wheel_repo>/bin/ruff -- two dirs above the ruff package -- so resolve it relative
-to the imported module rather than hardcoding the platform-specific repo name.
+"""Bazel launcher for ruff: the wheel has no console entry point, so exec the
+bundled binary at <wheel_repo>/bin/ruff, resolved relative to the ruff package.
 """
 
 import os
