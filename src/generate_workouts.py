@@ -11,7 +11,7 @@ import math
 import sys
 from collections import namedtuple
 
-from workspace import workspace_root
+from dev.workspace import workspace_root
 
 logger = logging.getLogger(__name__)
 
