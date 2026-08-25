@@ -19,7 +19,7 @@ import logging
 import sys
 from pathlib import Path
 
-from workspace import workspace_root
+from dev.workspace import workspace_root
 
 logger = logging.getLogger(__name__)
 

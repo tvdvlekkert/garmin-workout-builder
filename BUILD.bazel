@@ -5,7 +5,7 @@ load("@rules_uv//uv:pip.bzl", "pip_compile")
 _GARMIN_SRCS = [
     "src/garmin/client.py",
     "src/garmin/cli.py",
-    "workspace.py",
+    "dev/workspace.py",
 ]
 
 pip_compile(
@@ -15,10 +15,17 @@ pip_compile(
 )
 
 py_binary(
+    name = "ruff",
+    srcs = ["dev/ruff_main.py"],
+    main = "dev/ruff_main.py",
+    deps = [requirement("ruff")],
+)
+
+py_binary(
     name = "generate_workouts",
     srcs = [
         "src/generate_workouts.py",
-        "workspace.py",
+        "dev/workspace.py",
     ],
 )
 
@@ -26,7 +33,7 @@ py_binary(
     name = "estimate_duration",
     srcs = [
         "src/estimate_duration.py",
-        "workspace.py",
+        "dev/workspace.py",
     ],
 )
 
@@ -42,7 +49,7 @@ py_test(
     srcs = [
         "src/garmin/client.py",
         "tests/garmin/client_test.py",
-        "workspace.py",
+        "dev/workspace.py",
     ],
     main = "tests/garmin/client_test.py",
     deps = [

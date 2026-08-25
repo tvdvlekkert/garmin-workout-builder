@@ -16,7 +16,7 @@ import logging
 
 import garth
 
-from workspace import workspace_root
+from dev.workspace import workspace_root
 
 logger = logging.getLogger(__name__)
 

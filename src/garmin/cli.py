@@ -17,7 +17,7 @@ import logging
 import sys
 
 from src.garmin.client import GarminClient
-from workspace import workspace_root
+from dev.workspace import workspace_root
 
 logger = logging.getLogger(__name__)
 
@@ -139,9 +139,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(required=True)
 
-    sub.add_parser("auth", help="force a fresh interactive login, overwriting the saved session").set_defaults(run=client.auth)
+    sub.add_parser("auth", help="force a fresh interactive login, overwriting the saved session").set_defaults(
+        run=client.auth
+    )
 
-    sub.add_parser("types", help="fetch the workout-step enum catalog, save to ref/workout-types.json").set_defaults(run=client.types)
+    sub.add_parser("types", help="fetch the workout-step enum catalog, save to ref/workout-types.json").set_defaults(
+        run=client.types
+    )
 
     p = sub.add_parser("get", help="fetch a workout by id")
     p.add_argument("workout_id")

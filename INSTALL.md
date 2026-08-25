@@ -20,6 +20,15 @@ git lfs install
 - Optional: `brew install node` only if you use Node-based tooling (e.g. Claude
   Code plugins) -- it is not a build prerequisite.
 
+## Git hooks (optional)
+
+A pre-commit hook auto-formats staged Python with ruff (via `bazel run //:ruff`).
+Enable it once per clone:
+
+```
+git config core.hooksPath .githooks
+```
+
 ## Fallbacks without Homebrew
 
 On older macOS, Homebrew's bottles often need a newer OS/Xcode than you have and

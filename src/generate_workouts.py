@@ -11,7 +11,7 @@ import math
 import sys
 from collections import namedtuple
 
-from workspace import workspace_root
+from dev.workspace import workspace_root
 
 logger = logging.getLogger(__name__)
 
@@ -211,8 +211,24 @@ def repeat_group(counters, iterations, child_steps_fn, skip_last_rest=False):
 def reps_step_duplicated_per_side(counters, step_type, ex_key, reps_per_side, child_step_id=None, weight_lb=None):
     """Unilateral movement -> two back-to-back rep steps (user chose: duplicate everywhere)."""
     return [
-        exercise_step(counters, step_type, ex_key, COND_REPS, float(reps_per_side), weight_lb=weight_lb, child_step_id=child_step_id),
-        exercise_step(counters, step_type, ex_key, COND_REPS, float(reps_per_side), weight_lb=weight_lb, child_step_id=child_step_id),
+        exercise_step(
+            counters,
+            step_type,
+            ex_key,
+            COND_REPS,
+            float(reps_per_side),
+            weight_lb=weight_lb,
+            child_step_id=child_step_id,
+        ),
+        exercise_step(
+            counters,
+            step_type,
+            ex_key,
+            COND_REPS,
+            float(reps_per_side),
+            weight_lb=weight_lb,
+            child_step_id=child_step_id,
+        ),
     ]
 
 
@@ -254,7 +270,9 @@ def build_sets(counters, ex_key, sets, reps, weight_lb, rest_sec):
             counters,
             sets,
             lambda cid: [
-                exercise_step(counters, "interval", ex_key, COND_REPS, float(reps), weight_lb=weight_lb, child_step_id=cid),
+                exercise_step(
+                    counters, "interval", ex_key, COND_REPS, float(reps), weight_lb=weight_lb, child_step_id=cid
+                ),
                 rest_step(counters, rest_sec, child_step_id=cid),
             ],
         )
@@ -269,18 +287,24 @@ def build_unilateral_day_a(counters, ex_key, weight_lb):
         repeat_group(
             counters,
             3,
-            lambda cid: reps_step_duplicated_per_side(
-                counters, "interval", ex_key, 8, child_step_id=cid, weight_lb=weight_lb
-            )
-            + [rest_step(counters, 90, child_step_id=cid)],
+            lambda cid: (
+                reps_step_duplicated_per_side(counters, "interval", ex_key, 8, child_step_id=cid, weight_lb=weight_lb)
+                + [rest_step(counters, 90, child_step_id=cid)]
+            ),
         )
     ]
 
 
 def build_accessory_day_a(counters):
     def children(cid):
-        steps = [exercise_step(counters, "interval", "barbell_row", COND_REPS, 8.0, child_step_id=cid), rest_step(counters, 30, child_step_id=cid)]
-        steps += [exercise_step(counters, "interval", "push_up", COND_REPS, 12.0, child_step_id=cid), rest_step(counters, 30, child_step_id=cid)]
+        steps = [
+            exercise_step(counters, "interval", "barbell_row", COND_REPS, 8.0, child_step_id=cid),
+            rest_step(counters, 30, child_step_id=cid),
+        ]
+        steps += [
+            exercise_step(counters, "interval", "push_up", COND_REPS, 12.0, child_step_id=cid),
+            rest_step(counters, 30, child_step_id=cid),
+        ]
         steps += [exercise_step(counters, "interval", "barbell_rdl", COND_REPS, 8.0, child_step_id=cid)]
         steps.append(rest_step(counters, 60, child_step_id=cid))
         return steps
@@ -301,7 +325,20 @@ def build_accessory_day_b(counters):
     return [repeat_group(counters, 2, children, skip_last_rest=True)]
 
 
-def build_workout(name, warmup_lift_key, power_ex_key, power_reps, power_weight_lb, main_ex_key, sets, reps, weight_lb, accessory_fn, deload, unilateral_fn=None):
+def build_workout(
+    name,
+    warmup_lift_key,
+    power_ex_key,
+    power_reps,
+    power_weight_lb,
+    main_ex_key,
+    sets,
+    reps,
+    weight_lb,
+    accessory_fn,
+    deload,
+    unilateral_fn=None,
+):
     counters = Counters()
     steps = []
     steps += build_warmup(counters, warmup_lift_key)
